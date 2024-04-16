@@ -2,33 +2,33 @@ package com.example.networking;
 
 @SuppressWarnings("WeakerAccess")
 public class Mountain {
+    private String id;
     private String name;
-    private int mass;
-    private int volume;
+    private String type;
 
-    public Mountain(String name, int mass, int volume) {
+    public Mountain(String id, String name, String type) {
+        this.id = id;
         this.name = name;
-        this.mass = mass;
-        this.volume = volume;
+        this.type = type;
     }
 
+    public String getID() {
+        return id;
+    }
     public String getName() {
         return name;
     }
-    public String getMass() {
-        return mass+"";
-    }
-    public String getVolume() {
-        return volume+"";
+    public String getType() {
+        return type;
     }
 
+    public void setID(String id) {
+        this.id = id;
+    }
     public void setName(String name) {
         this.name = name;
     }
-    public void setMass(int mass) {
-        this.mass = mass;
-    }
-    public void setVolume(int volume) {
-        this.volume = volume;
+    public void setType(String type) {
+        this.type = type;
     }
 }

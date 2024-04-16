@@ -31,9 +31,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.MyViewHolder holder, int position) {
         // this one does give values to the views which created in the layout file
+        holder.textViewMountainsID.setText(String.format("%s %s", context.getString(R.string.mountains_id), mountains.get(position).getID()));
         holder.textViewMountainsName.setText(String.format("%s %s", context.getString(R.string.mountains_name), mountains.get(position).getName()));
-        holder.textViewMountainsMass.setText(String.format("\t%s %s", context.getString(R.string.mountains_mass), mountains.get(position).getMass()));
-        holder.textViewMountainsVolume.setText(String.format("\t%s %s", context.getString(R.string.mountains_volume), mountains.get(position).getVolume()));
+        holder.textViewMountainsType.setText(String.format("%s %s", context.getString(R.string.mountains_type), mountains.get(position).getType()));
     }
 
     @Override
@@ -45,15 +45,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         // grab the views from layout file almost like onCreate
 
+        TextView textViewMountainsID;
         TextView textViewMountainsName;
-        TextView textViewMountainsMass;
-        TextView textViewMountainsVolume;
+        TextView textViewMountainsType;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            textViewMountainsID = itemView.findViewById(R.id.textViewMountainsID);
             textViewMountainsName = itemView.findViewById(R.id.textViewMountainsName);
-            textViewMountainsMass = itemView.findViewById(R.id.textViewMountainsMass);
-            textViewMountainsVolume = itemView.findViewById(R.id.textViewMountainsVolume);
+            textViewMountainsType = itemView.findViewById(R.id.textViewMountainsType);
+
         }
     }
 }
