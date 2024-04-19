@@ -34,6 +34,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.textViewMountainsID.setText(String.format("%s %s", context.getString(R.string.mountains_id), mountains.get(position).getID()));
         holder.textViewMountainsName.setText(String.format("%s %s", context.getString(R.string.mountains_name), mountains.get(position).getName()));
         holder.textViewMountainsType.setText(String.format("%s %s", context.getString(R.string.mountains_type), mountains.get(position).getType()));
+        holder.textViewMountainsLocation.setText(String.format("%s %s", context.getString(R.string.mountains_location), mountains.get(position).getLocation()));
+        holder.textViewMountainsSize.setText(String.format("%s %s", context.getString(R.string.mountains_size), mountains.get(position).getSize()));
+        holder.textViewMountainsCost.setText(String.format("%s %s", context.getString(R.string.mountains_cost), mountains.get(position).getCost()));
     }
 
     @Override
@@ -43,17 +46,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        // grab the views from layout file almost like onCreate
+        // grab the views from layout file (layout.xml) almost like onCreate
 
         TextView textViewMountainsID;
         TextView textViewMountainsName;
         TextView textViewMountainsType;
+        TextView textViewMountainsLocation;
+        TextView textViewMountainsSize;
+        TextView textViewMountainsCost;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textViewMountainsID = itemView.findViewById(R.id.textViewMountainsID);
             textViewMountainsName = itemView.findViewById(R.id.textViewMountainsName);
             textViewMountainsType = itemView.findViewById(R.id.textViewMountainsType);
+            textViewMountainsLocation = itemView.findViewById(R.id.textViewMountainsLocation);
+            textViewMountainsSize = itemView.findViewById(R.id.textViewMountainsSize);
+            textViewMountainsCost = itemView.findViewById(R.id.textViewMountainsCost);
 
         }
     }
