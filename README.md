@@ -1,39 +1,86 @@
-
 # Rapport
 
-**Skriv din rapport här!**
-
-_Du kan ta bort all text som finns sedan tidigare_.
-
-## Följande grundsyn gäller dugga-svar:
-
-- Ett kortfattat svar är att föredra. Svar som är längre än en sida text (skärmdumpar och programkod exkluderat) är onödigt långt.
-- Svaret skall ha minst en snutt programkod.
-- Svaret skall inkludera en kort övergripande förklarande text som redogör för vad respektive snutt programkod gör eller som svarar på annan teorifråga.
-- Svaret skall ha minst en skärmdump. Skärmdumpar skall illustrera exekvering av relevant programkod. Eventuell text i skärmdumpar måste vara läsbar.
-- I de fall detta efterfrågas, dela upp delar av ditt svar i för- och nackdelar. Dina för- respektive nackdelar skall vara i form av punktlistor med kortare stycken (3-4 meningar).
-
-Programkod ska se ut som exemplet nedan. Koden måste vara korrekt indenterad då den blir lättare att läsa vilket gör det lättare att hitta syntaktiska fel.
+**Recycler List**
 
 ```
-function errorCallback(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            // Geolocation API stöds inte, gör något
-            break;
-        case error.POSITION_UNAVAILABLE:
-            // Misslyckat positionsanrop, gör något
-            break;
-        case error.UNKNOWN_ERROR:
-            // Okänt fel, gör något
-            break;
+...
+public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
+    
+    // JSONTask does checking if JSON_URL is validate, network and then active the function onPostExecute().
+    private final String JSON_URL = "https://mobprog.webug.se/json-api?login=brom";
+    ...
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        ...
+        new JsonTask(this).execute(JSON_URL);
+    }
+    
+    @Override
+    public void onPostExecute(String json) {
+        ...
     }
 }
 ```
+Först en fil måste skapas Mountain.java som innehåller alla properties för att hämta data från MainActivity.java. MainActivity har en URL som innehåller all data och lagras i en variabel JSON_URL.
+JSON_URL lagras i en parameter till funktionen JSONTask(this).execute() och sedan skickas till funktionen onPostExecute() som tar emot en parameter JSON.
 
-Bilder läggs i samma mapp som markdown-filen.
+```
+@Override
+public void onPostExecute(String json) {
+    
+    // Check if JSON is not NULL
+    try {
+        // Take JSON-data and turn into an array
+        JSONArray arr = new JSONArray(json);
+        
+        // Take a Mountain class which can hold of arrays
+        ArrayList<Mountain> mountains = new ArrayList<>();
+        
+        // Each object get string of specific name and add each name on constructor from mountains.
+        for (int i = 0; i < arr.length(); i++)
+        {
+            JSONObject object = arr.getJSONObject(i);
 
-![](android.png)
+            String id = object.getString("ID");
+            String name = object.getString("name");
+            String type = object.getString("type");
+            String location = object.getString("location");
+            int size = object.getInt("size");
+            int cost = object.getInt("cost");
+
+            mountains.add(new Mountain(id, name, type, location, size, cost));
+        }
+    } catch (JSONException e) {
+        Log.e("MainActivity==>","E:"+e.getMessage());
+    }
+}
+```
+Inuti onPostExecute() finns en "try"-block som kollar om JSON-string är null innan en JSONArray skapas.
+JSONArray hämta JSON och används för att skapa en array som innehåller alla object. 
+En for-loop används för att hämta varje objekt och lagra i varje property i en intans av Mountain-klassen genom att använda konstruktor.
+
+```
+    // RecyclerView grab recycler_view from activity_main.xml so att kan print data on the layout.
+    RecyclerView recyclerView = findViewById(R.id.recycler_view);
+    
+    // Before showing data on the layout, must have an adapter which can bind data (mountains) and print out on the linear layout.
+    adapter = new RecyclerViewAdapter(this, mountains);
+    recyclerView.setAdapter(adapter);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    
+    // After that adapter send a message about data has changed.
+    adapter.notifyDataSetChanged();
+```
+Denna kod skapar en RecyclerView som hämtar recycler_view från activity_main.xml för att visa data på layouten. 
+Innan data visas måste ha en adapter för att binda datan (mountains) och skriva ut den på linear layouten.
+Efter det adaptern har skickas ett meddelande om att datan har ändrats.
+
+![screenshot1.png](screenshot1.png)
+Här ser man hur den första aktiviteten ser ut, vilken kommer att visa varje data på layouten.
+
+![screenshot2.png](screenshot2.png)
+Här ser man hur det ser ut när man scrollar ner på layouten.
 
 Läs gärna:
 
